@@ -51,6 +51,7 @@ On the other side we have Neo4j that is by all means a true relationship based D
 so we always know where our goal is. We don't have to jump back and forth between tables, instead we just follow the path until we meet our goal.
 In this case it's traverse to the next node that is related by "ENDORSES" and we then just extend this from 1 jump up to 5
 
+
 |   |  Postgresql |   |  Neo4j |   |
 |---|---|---|---|---|
 |   |  Average |Median   |  Average |Median   |
@@ -62,3 +63,9 @@ In this case it's traverse to the next node that is related by "ENDORSES" and we
 
 Had a problem when running Depth 5 with Neo4j the error was related to Session not being flushed and then it timedout.
 I spend around 2 hours fixing this issue both with refactoring and Searching online but couldn't fix it.
+
+### Conclusion 
+
+In this specific case it would only make sense to pick Neo4j, the run time and resource usage is just so much better than for Postgreql. Other than that the complexity when it comes to developing the queries and system, Neo4j wins again. The difference is just to great to pick anyother than a GraphDB for this use case. And last note is the magic word scalability, scaling such an app with Postgresql or other sql databases is just to big of a hassle compared to Neo4j.
+
+Sidenote: To be fair the tables and dataset is skewed towards Graphdatabases, because if we wanted this kind of app on a SQL database we would denormalise the tables which by then we could have ended up with 1 table that has a cell called "ENDORSES" which contains a list of id's. This would have shorten our queries and reduced the complexity.
