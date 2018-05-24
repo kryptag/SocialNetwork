@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 public class PostDBConnection {
     private static Connection con;
-    private static String url = "jdbc:postgresql://127.0.0.1:5432";
+    private static String url = "jdbc:postgresql://localhost:5432";
     private static String username = "appdev";
     private static String password = "";
 

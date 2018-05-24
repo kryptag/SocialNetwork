@@ -1,14 +1,15 @@
 package com.florent.socialnetwork;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         NEO4JImpl neo = new NEO4JImpl();
         PostgresqlImpl pos = new PostgresqlImpl();
-        List<String> names = neo.get20Random();
+        //List<String> names = neo.get20Random();
         List<Double> timetable1 = new ArrayList<>();
         List<Double> timetable2 = new ArrayList<>();
         List<Double> timetable3 = new ArrayList<>();
@@ -20,89 +21,82 @@ public class Main {
         List<Double> timetable9 = new ArrayList<>();
         List<Double> timetable10 = new ArrayList<>();
 
-
-
-
-        names.forEach((name) -> { neo.getPeopleThatEndorse(name, ":ENDORSES" , timetable1); });
-
+        System.out.println("NEO4J QUERIES");
         System.out.println("----------------------------------------------------------------");
-
-        System.out.println("all persons that a person endorses, i.e., endorsements of depth one.");
+        for (int i = 0; i < 1000; i++) {
+            neo.getBooksByCity(timetable1);
+        }
+        System.out.println("Get all books that mention Copenhagen");
         System.out.println("Average time in seconds for this Query: " + neo.getAverage(timetable1));
         System.out.println("Median time in seconds for this Query: " + neo.getMedian(timetable1));
-
         System.out.println("----------------------------------------------------------------");
-
-        names.forEach((name)->{ neo.getPeopleThatEndorse(name,":ENDORSES*2" , timetable2);});
-
-        System.out.println("all persons that are endorsed by endorsed persons of a person, i.e., endorsements of depth two.");
+        for (int i = 0; i < 1000; i++) {
+            neo.getAllCitiesInBook(timetable2);
+        }
+        System.out.println("get all cities mentioned in a specific book");
         System.out.println("Average time in seconds for this Query: " + neo.getAverage(timetable2));
         System.out.println("Median time in seconds for this Query: " + neo.getMedian(timetable2));
-
         System.out.println("----------------------------------------------------------------");
-
-        names.forEach((name)->{ neo.getPeopleThatEndorse(name,":ENDORSES*3" , timetable3);});
-
-        System.out.println("endorsements of depth three.");
+        for (int i = 0; i < 1000; i++) {
+            neo.getBooksAndCitiesByAuthor(timetable3);
+        }
+        System.out.println("Get all books and the cities they mention by author name");
         System.out.println("Average time in seconds for this Query: " + neo.getAverage(timetable3));
         System.out.println("Median time in seconds for this Query: " + neo.getMedian(timetable3));
-
         System.out.println("----------------------------------------------------------------");
-
-        names.forEach((name)->{ neo.getPeopleThatEndorse(name,":ENDORSES*4" , timetable4);});
-
-        System.out.println("endorsements of depth four.");
+        for (int i = 0; i < 1000; i++) {
+            neo.getAllBooksWrittenNearby(timetable4);
+        }
+        System.out.println("Get all books that mention a city Nearby");
         System.out.println("Average time in seconds for this Query: " + neo.getAverage(timetable4));
         System.out.println("Median time in seconds for this Query: " + neo.getMedian(timetable4));
-
         System.out.println("----------------------------------------------------------------");
 
-        //names.forEach((name)->{ neo.getPeopleThatEndorse(name,":ENDORSES*5" , timetable5);});
-
-        //System.out.println("endorsements of depth five.");
-        //System.out.println("Average time in seconds for this Query: " + neo.getAverage(timetable5));
-        //System.out.println("Median time in seconds for this Query: " + neo.getMedian(timetable5));
-
+        System.out.println("POSTGRESQL QUERIES");
         System.out.println("----------------------------------------------------------------");
+        for (int i = 0; i < 1000; i++) {
+            pos.GetBooksByCity("hejsa", timetable6);
+        }
 
-        names.forEach((name) -> { pos.GetPeopleEndorsedDepth1(name, timetable6);});
-
-        System.out.println("all persons that a person endorses, i.e., endorsements of depth one.");
+        System.out.println("Get all books that mention Copenhagen");
         System.out.println("Average time in seconds for this Query: " + neo.getAverage(timetable6));
         System.out.println("Median time in seconds for this Query: " + neo.getMedian(timetable6));
 
         System.out.println("----------------------------------------------------------------");
 
-        names.forEach((name) -> { pos.GetPeopleEndorsedDepth2(name, timetable7);});
+        for (int i = 0; i < 1000; i++) {
+            pos.GetAllcitiesInBook("hejsa", timetable7);
+        }
 
-        System.out.println("all persons that are endorsed by endorsed persons of a person, i.e., endorsements of depth two.");
+        System.out.println("get all cities mentioned in a specific book");
         System.out.println("Average time in seconds for this Query: " + neo.getAverage(timetable7));
         System.out.println("Median time in seconds for this Query: " + neo.getMedian(timetable7));
 
         System.out.println("----------------------------------------------------------------");
 
-        names.forEach((name) -> { pos.GetPeopleEndorsedDepth3(name, timetable8);});
+        for (int i = 0; i < 1000; i++) {
+            pos.GetBooksAndCitiesByAuthor("hejsa", timetable8);
+        }
 
-        System.out.println("endorsements of depth three.");
+        System.out.println("Get all books and the cities they mention by author name");
         System.out.println("Average time in seconds for this Query: " + neo.getAverage(timetable8));
         System.out.println("Median time in seconds for this Query: " + neo.getMedian(timetable8));
 
         System.out.println("----------------------------------------------------------------");
 
-        names.forEach((name) -> { pos.GetPeopleEndorsedDepth4(name, timetable9);});
+        for (int i = 0; i < 1000; i++) {
+            pos.GetAllBooksWrittenNearby("hejsa", timetable9);
+        }
 
-        System.out.println("endorsements of depth four.");
+        System.out.println("Get all books that mention a city Nearby");
         System.out.println("Average time in seconds for this Query: " + neo.getAverage(timetable9));
         System.out.println("Median time in seconds for this Query: " + neo.getMedian(timetable9));
 
         System.out.println("----------------------------------------------------------------");
 
-        names.forEach((name) -> { pos.GetPeopleEndorsedDepth5(name, timetable10);});
-
-        System.out.println("endorsements of depth five.");
-        System.out.println("Average time in seconds for this Query: " + neo.getAverage(timetable10));
-        System.out.println("Median time in seconds for this Query: " + neo.getMedian(timetable10));
-
-
+        //names.forEach((name) -> { pos.GetPeopleEndorsedDepth5(name, timetable10);});
+        //System.out.println("endorsements of depth five.");
+        //System.out.println("Average time in seconds for this Query: " + neo.getAverage(timetable10));
+        //System.out.println("Median time in seconds for this Query: " + neo.getMedian(timetable10));
     }
 }
