@@ -70,7 +70,7 @@ public class NEO4JImpl {
         Driver driver = DBConnection.getInstance();
 
         Session session = driver.session();
-        String query = String.format("MATCH (book:Book)-[r:CONTAINS]->(city:City {name: Copenhagen}) RETURN book,r,city;");
+        String query = String.format("MATCH (book:Book)-[r:CONTAINS]->(city:City {name: \"Copenhagen\"}) RETURN book,r,city;");
         StatementResult res = session.run(query);
         timetable.add((double) res.summary().resultConsumedAfter(TimeUnit.MILLISECONDS) / 1000.0);
 
@@ -82,7 +82,7 @@ public class NEO4JImpl {
         Driver driver = DBConnection.getInstance();
 
         Session session = driver.session();
-        String query = String.format("MATCH (:Book{title: Morals and the Evolution of Man)-[:CONTAINS]-(city:City) RETURN city");
+        String query = String.format("MATCH (:Book{title: \"Morals and the Evolution of Man\"})-[:CONTAINS]-(city:City) RETURN city");
         StatementResult res = session.run(query);
         timetable.add((double) res.summary().resultConsumedAfter(TimeUnit.MILLISECONDS) / 1000.0);
 
@@ -94,7 +94,7 @@ public class NEO4JImpl {
         Driver driver = DBConnection.getInstance();
 
         Session session = driver.session();
-        String query = String.format("MATCH (:Author{name: Maxime Provost)-[:WRITTEN_BY]-(book:Book)-[:CONTAINS]-(city:City) RETURN book.title, city");
+        String query = String.format("MATCH (:Author{name: \"Maxime Provost\"})-[:WRITTEN_BY]-(book:Book)-[:CONTAINS]-(city:City) RETURN book.title, city");
         StatementResult res = session.run(query);
         timetable.add((double) res.summary().resultConsumedAfter(TimeUnit.MILLISECONDS) / 1000.0);
 
@@ -106,7 +106,7 @@ public class NEO4JImpl {
         Driver driver = DBConnection.getInstance();
 
         Session session = driver.session();
-        String query = String.format("WITH {55.675940} AS lat, {12.565530} AS lon\n" +
+        String query = String.format("WITH 55.675940 AS lat, 12.565530 AS lon\n" +
             "MATCH (l:City) \n" +
             "WHERE 2 * 6371 * asin(sqrt(haversin(radians(lat - toFloat(split(l.location, \",\")[0])))+ cos(radians(lat))* cos(radians(toFloat(split(l.location, \",\")[0])))* haversin(radians(lon - toFloat(split(l.location, \",\")[1]))))) < 20\n" +
             "MATCH (l)-[:CONTAINS]-(book:Book)\n" +
