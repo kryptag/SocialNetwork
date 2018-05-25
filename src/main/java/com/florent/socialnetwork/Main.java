@@ -23,28 +23,28 @@ public class Main {
 
         System.out.println("NEO4J QUERIES");
         System.out.println("----------------------------------------------------------------");
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1000; i++) {
             neo.getBooksByCity(timetable1);
         }
         System.out.println("Get all books that mention Copenhagen");
         System.out.println("Average time in seconds for this Query: " + neo.getAverage(timetable1));
         System.out.println("Median time in seconds for this Query: " + neo.getMedian(timetable1));
         System.out.println("----------------------------------------------------------------");
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1000; i++) {
             neo.getAllCitiesInBook(timetable2);
         }
         System.out.println("get all cities mentioned in a specific book");
         System.out.println("Average time in seconds for this Query: " + neo.getAverage(timetable2));
         System.out.println("Median time in seconds for this Query: " + neo.getMedian(timetable2));
         System.out.println("----------------------------------------------------------------");
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1000; i++) {
             neo.getBooksAndCitiesByAuthor(timetable3);
         }
         System.out.println("Get all books and the cities they mention by author name");
         System.out.println("Average time in seconds for this Query: " + neo.getAverage(timetable3));
         System.out.println("Median time in seconds for this Query: " + neo.getMedian(timetable3));
         System.out.println("----------------------------------------------------------------");
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1000; i++) {
             neo.getAllBooksWrittenNearby(timetable4);
         }
         System.out.println("Get all books that mention a city Nearby");
@@ -54,7 +54,7 @@ public class Main {
 
         System.out.println("POSTGRESQL QUERIES");
         System.out.println("----------------------------------------------------------------");
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1000; i++) {
             pos.GetBooksByCity("hejsa", timetable6);
         }
 
@@ -64,7 +64,7 @@ public class Main {
 
         System.out.println("----------------------------------------------------------------");
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1000; i++) {
             pos.GetAllcitiesInBook("hejsa", timetable7);
         }
 
@@ -74,7 +74,7 @@ public class Main {
 
         System.out.println("----------------------------------------------------------------");
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1000; i++) {
             pos.GetBooksAndCitiesByAuthor("hejsa", timetable8);
         }
 
@@ -84,7 +84,7 @@ public class Main {
 
         System.out.println("----------------------------------------------------------------");
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1000; i++) {
             pos.GetAllBooksWrittenNearby("hejsa", timetable9);
         }
 
