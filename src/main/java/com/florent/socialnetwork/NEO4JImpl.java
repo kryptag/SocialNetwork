@@ -6,6 +6,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.neo4j.driver.v1.summary.Plan;
 
 public class NEO4JImpl {
 
@@ -71,9 +72,13 @@ public class NEO4JImpl {
 
         Session session = driver.session();
         String query = String.format("MATCH (book:Book)-[r:CONTAINS]->(city:City {name: \"Copenhagen\"}) RETURN book,r,city;");
+        
+        long startTime = System.nanoTime();
         StatementResult res = session.run(query);
-        timetable.add((double) res.summary().resultConsumedAfter(TimeUnit.MILLISECONDS) / 1000.0);
-
+        res.summary().plan();
+        long endtime = System.nanoTime() - startTime;
+        timetable.add((double) endtime / 1000000000.0);
+      
         DBConnection.closeDriver();
 
     }
@@ -83,8 +88,12 @@ public class NEO4JImpl {
 
         Session session = driver.session();
         String query = String.format("MATCH (:Book{title: \"Morals and the Evolution of Man\"})-[:CONTAINS]-(city:City) RETURN city");
+        
+        long startTime = System.nanoTime();
         StatementResult res = session.run(query);
-        timetable.add((double) res.summary().resultConsumedAfter(TimeUnit.MILLISECONDS) / 1000.0);
+        res.summary().plan();
+        long endtime = System.nanoTime() - startTime;
+        timetable.add((double) endtime / 1000000000.0);
 
         DBConnection.closeDriver();
 
@@ -95,8 +104,12 @@ public class NEO4JImpl {
 
         Session session = driver.session();
         String query = String.format("MATCH (:Author{name: \"Maxime Provost\"})-[:WRITTEN_BY]-(book:Book)-[:CONTAINS]-(city:City) RETURN book.title, city");
+        
+        long startTime = System.nanoTime();
         StatementResult res = session.run(query);
-        timetable.add((double) res.summary().resultConsumedAfter(TimeUnit.MILLISECONDS) / 1000.0);
+        res.summary().plan();
+        long endtime = System.nanoTime() - startTime;
+        timetable.add((double) endtime / 1000000000.0);
 
         DBConnection.closeDriver();
 
@@ -108,11 +121,15 @@ public class NEO4JImpl {
         Session session = driver.session();
         String query = String.format("WITH 55.675940 AS lat, 12.565530 AS lon\n" +
             "MATCH (l:City) \n" +
-            "WHERE 2 * 6371 * asin(sqrt(haversin(radians(lat - toFloat(split(l.location, \",\")[0])))+ cos(radians(lat))* cos(radians(toFloat(split(l.location, \",\")[0])))* haversin(radians(lon - toFloat(split(l.location, \",\")[1]))))) < 20\n" +
+            "WHERE 2 * 6371 * asin(sqrt(haversin(radians(lat - toFloat(split(l.location, \",\")[0])))+ cos(radians(lat))* cos(radians(toFloat(split(l.location, \",\")[0])))* haversin(radians(lon - toFloat(split(l.location, \",\")[1]))))) <= 20\n" +
             "MATCH (l)-[:CONTAINS]-(book:Book)\n" +
-            "RETURN l");
+            "RETURN book");
+        
+        long startTime = System.nanoTime();
         StatementResult res = session.run(query);
-        timetable.add((double) res.summary().resultConsumedAfter(TimeUnit.MILLISECONDS) / 1000.0);
+        res.summary().plan();
+        long endtime = System.nanoTime() - startTime;
+        timetable.add((double) endtime / 1000000000.0);
 
         DBConnection.closeDriver();
 

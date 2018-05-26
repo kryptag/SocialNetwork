@@ -94,10 +94,11 @@ public class PostgresqlImpl {
         con.createStatement().execute("SET search_path TO gutenberg;");
         try {
             long startTime = System.nanoTime();
-            ResultSet res = con.createStatement().executeQuery("SELECT DISTINCT ON (books.book_id) books.book_id, title FROM books "
-                    + "NATURAL JOIN books_cities "
-                    + "NATURAL JOIN cities "
-                    + "WHERE cities.name = 'Copenhagen';");
+            ResultSet res = con.createStatement().executeQuery("SELECT * FROM books " +
+            "INNER JOIN books_cities ON (books.book_id = books_cities.book_id) " +
+            "INNER JOIN cities ON (books_cities.latitude = cities.latitude AND books_cities.longitude = cities.longitude) " +
+            "INNER JOIN authors_books ON (books.book_id = authors_books.book_id) " +
+            "INNER JOIN authors ON (authors_books.author_id = authors.author_id) WHERE cities.name = 'Copenhagen';");
             long endtime = System.nanoTime() - startTime;
             timetable.add((double) endtime / 1000000000.0);
         } catch (SQLException e) {
